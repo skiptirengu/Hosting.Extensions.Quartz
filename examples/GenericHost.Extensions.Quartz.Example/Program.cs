@@ -3,7 +3,7 @@ using Quartz;
 using Serilog;
 using System.Threading.Tasks;
 
-namespace NetCore.Hosting.Quartz.Example
+namespace GenericHost.Extensions.Quartz.Example
 {
     public class Program
     {

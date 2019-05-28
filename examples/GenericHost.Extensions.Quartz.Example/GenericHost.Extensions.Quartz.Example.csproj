@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\NetCore.Hosting.Quartz\NetCore.Hosting.Quartz.csproj" />
+    <ProjectReference Include="..\..\GenericHost.Extensions.Quartz\GenericHost.Extensions.Quartz.csproj" />
   </ItemGroup>
 
 </Project>

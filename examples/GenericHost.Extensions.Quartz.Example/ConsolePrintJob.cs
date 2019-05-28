@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace NetCore.Hosting.Quartz.Example
+namespace GenericHost.Extensions.Quartz.Example
 {
     public class ConsolePrintJob : IJob
     {

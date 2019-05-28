@@ -2,7 +2,7 @@
 using Quartz;
 using System.Threading.Tasks;
 
-namespace NetCore.Hosting.Quartz.Example
+namespace GenericHost.Extensions.Quartz.Example
 {
     public class LogWriteJob : IJob
     {

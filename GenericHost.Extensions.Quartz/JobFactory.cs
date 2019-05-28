@@ -3,7 +3,7 @@ using Quartz;
 using Quartz.Spi;
 using System;
 
-namespace NetCore.Hosting.Quartz
+namespace GenericHost.Extensions.Quartz
 {
     public class JobFactory : IJobFactory
     {

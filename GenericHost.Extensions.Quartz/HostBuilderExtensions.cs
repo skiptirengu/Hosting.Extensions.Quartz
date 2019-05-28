@@ -5,7 +5,7 @@ using Quartz.Impl;
 using Quartz.Spi;
 using System;
 
-namespace NetCore.Hosting.Quartz
+namespace GenericHost.Extensions.Quartz
 {
     public static class HostBuilderExtensions
     {

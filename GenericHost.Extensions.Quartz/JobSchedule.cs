@@ -1,6 +1,6 @@
 ﻿using Quartz;
 
-namespace NetCore.Hosting.Quartz
+namespace GenericHost.Extensions.Quartz
 {
     public class JobSchedule : IJobSchedule
     {

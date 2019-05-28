@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NetCore.Hosting.Quartz
+namespace GenericHost.Extensions.Quartz
 {
     public class QuartzHostedService : IHostedService
     {

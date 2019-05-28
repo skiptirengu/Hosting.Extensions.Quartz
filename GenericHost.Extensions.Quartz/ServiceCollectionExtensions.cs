@@ -2,7 +2,7 @@
 using Quartz;
 using System;
 
-namespace NetCore.Hosting.Quartz
+namespace GenericHost.Extensions.Quartz
 {
     public static class ServiceCollectionExtensions
     {
