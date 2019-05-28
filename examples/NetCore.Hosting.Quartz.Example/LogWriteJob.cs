@@ -1,14 +1,21 @@
-﻿using Quartz;
-using Serilog;
+﻿using Microsoft.Extensions.Logging;
+using Quartz;
 using System.Threading.Tasks;
 
 namespace NetCore.Hosting.Quartz.Example
 {
     public class LogWriteJob : IJob
     {
+        public LogWriteJob(ILogger<LogWriteJob> logger)
+        {
+            Logger = logger;
+        }
+
+        public ILogger<LogWriteJob> Logger { get; }
+
         public Task Execute(IJobExecutionContext context)
         {
-            Log.Information("Logging to console");
+            Logger.LogInformation("Logging to console");
             return Task.CompletedTask;
         }
     }
