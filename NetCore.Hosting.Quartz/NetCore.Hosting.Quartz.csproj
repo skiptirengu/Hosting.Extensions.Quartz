@@ -1,7 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Authors>Thiago Oliveira</Authors>
+    <Product />
+    <PackageLicenseUrl>https://github.com/skiptirengu/NetCore.Hosting.Quartz/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/skiptirengu/NetCore.Hosting.Quartz</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/skiptirengu/NetCore.Hosting.Quartz</RepositoryUrl>
+    <RepositoryType>GIT</RepositoryType>
+    <Description>Easily integrate .NET Core's GenericHost with Quartz</Description>
   </PropertyGroup>
 
   <ItemGroup>
