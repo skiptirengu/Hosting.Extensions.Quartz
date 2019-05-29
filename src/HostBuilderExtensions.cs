@@ -10,6 +10,12 @@ namespace Hosting.Extensions.Quartz
 {
     public static class HostBuilderExtensions
     {
+        /// <summary>
+        /// Registers the Scheduler, JobFactory and the QuartzHostedService on the ServiceCollection
+        /// </summary>
+        /// <param name="builder">The NET Core HostBuilder</param>
+        /// <param name="configure">A function that will receive the HostBuilderContext and the StdSchedulerFactory config collection</param>
+        /// <returns>The HostBuilder itselft</returns>
         public static IHostBuilder UseQuartz(this IHostBuilder builder, Action<HostBuilderContext, NameValueCollection> configure = null)
         {
             builder.ConfigureServices((context, collection) =>
