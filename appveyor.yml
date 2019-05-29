@@ -1,5 +1,12 @@
 version: '{build}'
 image: Visual Studio 2017
+init:
+  - ps: |
+      if ($env:APPVEYOR_REPO_TAG -eq "true") {
+        $env:ARTIFACT_VERSION = "$env:APPVEYOR_REPO_TAG_NAME"
+      } else {
+        $env:ARTIFACT_VERSION = "1.0.0"
+      }
 before_build:
   - cmd: dotnet --version
   - cmd: dotnet restore ./src/Hosting.Extensions.Quartz.csproj --verbosity m
@@ -9,13 +16,13 @@ artifacts:
   - path: './src/bin/Release/*.nupkg'
 clone_depth: 1
 dotnet_csproj:
-  patch: $(APPVEYOR_REPO_TAG)
+  patch: true
   file: '**\*.csproj'
-  version: $(APPVEYOR_REPO_TAG_NAME)
-  package_version: $(APPVEYOR_REPO_TAG_NAME)
-  assembly_version: $(APPVEYOR_REPO_TAG_NAME)
-  file_version: $(APPVEYOR_REPO_TAG_NAME)
-  informational_version: $(APPVEYOR_REPO_TAG_NAME)
+  version: $(ARTIFACT_VERSION)
+  package_version: $(ARTIFACT_VERSION)
+  assembly_version: $(ARTIFACT_VERSION)
+  file_version: $(ARTIFACT_VERSION)
+  informational_version: $(ARTIFACT_VERSION)
 test_script:
   - cmd: dotnet restore ./tests/Hosting.Extensions.Quartz.Tests.csproj --verbosity m
   - cmd: cd tests
