@@ -1,29 +1,32 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Quartz;
 using Quartz.Impl;
 using Quartz.Spi;
 using System;
+using System.Collections.Specialized;
+using System.Linq;
 
 namespace GenericHost.Extensions.Quartz
 {
     public static class HostBuilderExtensions
     {
-        public static IHostBuilder UseQuartz(this IHostBuilder builder, Action<HostBuilderContext, ISchedulerFactory> configure = null)
+        public static IHostBuilder UseQuartz(this IHostBuilder builder, Action<HostBuilderContext, NameValueCollection> configure = null)
         {
             builder.ConfigureServices((context, collection) =>
             {
+                var config = new NameValueCollection();
+                context.Configuration.GetSection("Quartz").GetChildren().ToList().ForEach((x) => config.Set(x.Key, x.Value));
+                collection.AddHostedService<QuartzHostedService>();
                 collection.AddSingleton<IJobFactory, JobFactory>();
                 collection.AddSingleton((provider) =>
                 {
-                    var factory = new StdSchedulerFactory();
-                    configure?.Invoke(context, factory);
+                    configure?.Invoke(context, config);
+                    var factory = new StdSchedulerFactory(config);
 
                     var scheduler = factory.GetScheduler().Result;
                     scheduler.JobFactory = provider.GetRequiredService<IJobFactory>();
                     return scheduler;
                 });
-                collection.AddHostedService<QuartzHostedService>();
             });
 
             return builder;

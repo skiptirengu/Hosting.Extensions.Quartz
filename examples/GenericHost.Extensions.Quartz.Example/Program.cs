@@ -1,6 +1,8 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Quartz;
 using Serilog;
+using System;
 using System.Threading.Tasks;
 
 namespace GenericHost.Extensions.Quartz.Example
@@ -12,6 +14,7 @@ namespace GenericHost.Extensions.Quartz.Example
             Log.Logger = new LoggerConfiguration().WriteTo.ColoredConsole().CreateLogger();
 
             var host = new HostBuilder()
+                .ConfigureAppConfiguration(x => x.AddJsonFile("appsettings.json"))
                 .ConfigureServices((services) =>
                 {
                     services.AddJobService<ConsolePrintJob>((job, trigger) =>
@@ -25,7 +28,10 @@ namespace GenericHost.Extensions.Quartz.Example
                         trigger.StartNow().WithSimpleSchedule((x) => x.WithIntervalInSeconds(2).RepeatForever());
                     });
                 })
-                .UseQuartz()
+                .UseQuartz((context, config) =>
+                {
+                    config.Set("quartz.threadPool.threadCount", Environment.ProcessorCount.ToString());
+                })
                 .UseConsoleLifetime()
                 .UseSerilog()
                 .Build();
