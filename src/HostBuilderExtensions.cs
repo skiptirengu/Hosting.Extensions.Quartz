@@ -3,19 +3,25 @@ using Microsoft.Extensions.Hosting;
 using Quartz.Impl;
 using Quartz.Spi;
 using System;
-using System.Collections.Specialized;
 using System.Linq;
 
-namespace GenericHost.Extensions.Quartz
+namespace Hosting.Extensions.Quartz
 {
     public static class HostBuilderExtensions
     {
-        public static IHostBuilder UseQuartz(this IHostBuilder builder, Action<HostBuilderContext, NameValueCollection> configure = null)
+        /// <summary>
+        /// Registers the Scheduler, JobFactory, QuartzConfigCollection and the QuartzHostedService on the service collection
+        /// </summary>
+        /// <param name="builder">The NET Core HostBuilder</param>
+        /// <param name="configure">A function that will receive the HostBuilderContext and the StdSchedulerFactory config collection</param>
+        /// <returns>The HostBuilder itselft</returns>
+        public static IHostBuilder UseQuartz(this IHostBuilder builder, Action<HostBuilderContext, QuartzConfigCollection> configure = null)
         {
             builder.ConfigureServices((context, collection) =>
             {
-                var config = new NameValueCollection();
+                var config = new QuartzConfigCollection();
                 context.Configuration.GetSection("Quartz").GetChildren().ToList().ForEach((x) => config.Set(x.Key, x.Value));
+                collection.AddSingleton(config);
                 collection.AddHostedService<QuartzHostedService>();
                 collection.AddSingleton<IJobFactory, JobFactory>();
                 collection.AddSingleton((provider) =>

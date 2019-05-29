@@ -1,14 +1,12 @@
 ﻿using Quartz;
-using System;
 using System.Threading.Tasks;
 
-namespace GenericHost.Extensions.Quartz.Example
+namespace Hosting.Extensions.Quartz.Tests
 {
-    public class ConsolePrintJob : IJob
+    public class EvenDummierJob : IJob
     {
         public Task Execute(IJobExecutionContext context)
         {
-            Console.WriteLine("Executing job");
             return Task.CompletedTask;
         }
     }

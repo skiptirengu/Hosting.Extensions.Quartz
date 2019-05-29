@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace GenericHost.Extensions.Quartz
+namespace Hosting.Extensions.Quartz
 {
     public class QuartzHostedService : IHostedService
     {
@@ -30,7 +30,7 @@ namespace GenericHost.Extensions.Quartz
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Scheduling {count} jobs", _jobs.Count());
+            _logger.LogInformation("Scheduling {count} job(s)", _jobs.Count());
             foreach (var item in _jobs)
             {
                 await _scheduler.ScheduleJob(item.JobDetail, item.Trigger, cancellationToken);

@@ -5,7 +5,7 @@ using Serilog;
 using System;
 using System.Threading.Tasks;
 
-namespace GenericHost.Extensions.Quartz.Example
+namespace Hosting.Extensions.Quartz.Example
 {
     public class Program
     {

@@ -1,0 +1,15 @@
+version: '{build}'
+image: Visual Studio 2017
+before_build:
+  - cmd: dotnet --version
+  - cmd: dotnet restore ./src/Hosting.Extensions.Quartz.csproj --verbosity m
+build_script:
+  - cmd: dotnet build -c Release ./src/Hosting.Extensions.Quartz.csproj
+artifacts:
+  - path: '**\*.nupkg'
+clone_depth: 1
+test_script:
+  - cmd: dotnet restore ./tests/Hosting.Extensions.Quartz.Tests.csproj --verbosity m
+  - cmd: cd tests
+  - cmd: dotnet test
+deploy: off
