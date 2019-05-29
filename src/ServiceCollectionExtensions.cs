@@ -15,8 +15,8 @@ namespace Hosting.Extensions.Quartz
         /// <param name="builder">A function the will receive the JobBuilder and TriggerBuilder to customize the job's behavior</param>
         /// <returns></returns>
         public static IServiceCollection AddJobService<TService, TImplementation>(this IServiceCollection collection, Action<JobBuilder, TriggerBuilder> builder)
-            where TService : class, IJob
-            where TImplementation : class, TService
+            where TService : class
+            where TImplementation : class, TService, IJob
         {
             collection.AddSingleton<TService, TImplementation>();
             RegisterJob<TService>(collection, builder);
@@ -38,7 +38,7 @@ namespace Hosting.Extensions.Quartz
             return collection;
         }
 
-        private static void RegisterJob<TService>(IServiceCollection collection, Action<JobBuilder, TriggerBuilder> builder) where TService : class, IJob
+        private static void RegisterJob<TService>(IServiceCollection collection, Action<JobBuilder, TriggerBuilder> builder) where TService : class
         {
             var jobBuilder = JobBuilder.Create(typeof(TService));
             var triggerBuilder = TriggerBuilder.Create();
