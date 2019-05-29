@@ -2,7 +2,7 @@
 
 [![Build status](https://ci.appveyor.com/api/projects/status/hja78a47mohg714g/branch/master?svg=true)](https://ci.appveyor.com/project/skiptirengu/hosting-extensions-quartz/branch/master)
 
-Integrate Quartz .NET with .NET Core's Host
+Easily integrate .NET Core's Host with Quartz
 
 ## Usage
 
