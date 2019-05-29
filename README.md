@@ -1,4 +1,4 @@
-# GenericHost.Extensions.Quartz
+# Hosting.Extensions.Quartz
 
 [![Build status](https://ci.appveyor.com/api/projects/status/hja78a47mohg714g/branch/master?svg=true)](https://ci.appveyor.com/project/skiptirengu/hosting-extensions-quartz/branch/master)
 

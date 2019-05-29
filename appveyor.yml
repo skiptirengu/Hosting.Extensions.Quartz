@@ -6,10 +6,22 @@ before_build:
 build_script:
   - cmd: dotnet build -c Release ./src/Hosting.Extensions.Quartz.csproj
 artifacts:
-  - path: '**\*.nupkg'
+  - path: './src/bin/Release/*.nupkg'
 clone_depth: 1
+dotnet_csproj:
+  patch: $(APPVEYOR_REPO_TAG)
+  file: '**\*.csproj'
+  version: $(APPVEYOR_REPO_TAG_NAME)
+  package_version: $(APPVEYOR_REPO_TAG_NAME)
+  assembly_version: $(APPVEYOR_REPO_TAG_NAME)
+  file_version: $(APPVEYOR_REPO_TAG_NAME)
+  informational_version: $(APPVEYOR_REPO_TAG_NAME)
 test_script:
   - cmd: dotnet restore ./tests/Hosting.Extensions.Quartz.Tests.csproj --verbosity m
   - cmd: cd tests
   - cmd: dotnet test
-deploy: off
+deploy: 
+  - provider: Environment
+    name: Quartz
+    on:
+      APPVEYOR_REPO_TAG: true
