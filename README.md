@@ -1,5 +1,7 @@
 # GenericHost.Extensions.Quartz
 
+[![Build status](https://ci.appveyor.com/api/projects/status/hja78a47mohg714g/branch/master?svg=true)](https://ci.appveyor.com/project/skiptirengu/hosting-extensions-quartz/branch/master)
+
 Integrate Quartz .NET with .NET Core's Host
 
 ## Usage
@@ -7,12 +9,10 @@ Integrate Quartz .NET with .NET Core's Host
 To enable the Quartz integration, simply call the extension method `UseQuartz()` on your HostBuilder.
 
 ```c#
-// ...
 new HostBuilder().UseQuartz((context, config) =>
 {
     config.Set("quartz.threadPool.threadCount", "2");
 })
-// ...
 ```
 
 The callback is opitional and can be used to customize Quartz default options. You can also set the options in your `appsettings.json` file.
@@ -20,7 +20,6 @@ The callback is opitional and can be used to customize Quartz default options. Y
 ```json
 {
   "Quartz": {
-    "quartz.scheduler.instanceName": "binary",
     "quartz.threadPool.type": "Quartz.Simpl.SimpleThreadPool, Quartz",
     "quartz.threadPool.threadCount": 5,
     "quartz.threadPool.threadPriority": "Normal",
