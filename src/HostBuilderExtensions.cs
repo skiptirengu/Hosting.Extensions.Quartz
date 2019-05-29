@@ -6,7 +6,7 @@ using System;
 using System.Collections.Specialized;
 using System.Linq;
 
-namespace GenericHost.Extensions.Quartz
+namespace Hosting.Extensions.Quartz
 {
     public static class HostBuilderExtensions
     {

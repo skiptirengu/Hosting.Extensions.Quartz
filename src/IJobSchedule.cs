@@ -1,6 +1,6 @@
 ﻿using Quartz;
 
-namespace GenericHost.Extensions.Quartz
+namespace Hosting.Extensions.Quartz
 {
     public interface IJobSchedule
     {

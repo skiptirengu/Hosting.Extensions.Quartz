@@ -5,12 +5,14 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Authors>Thiago Oliveira</Authors>
-    <Product />
+    <Product>Hosting.Extensions.Quartz</Product>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/skiptirengu/NetCore.Hosting.Quartz</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/skiptirengu/NetCore.Hosting.Quartz</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/skiptirengu/Hosting.Extensions.Quartz</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/skiptirengu/Hosting.Extensions.Quartz</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
-    <Description>Easily integrate .NET Core's GenericHost with Quartz</Description>
+    <Description>Easily integrate .NET Core's Host with Quartz</Description>
+    <Version>1.0.0</Version>
+    <PackageId>Hosting.Extensions.Quartz</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
