@@ -6,16 +6,24 @@ Easily integrate .NET Core's Host with Quartz
 
 ## Usage
 
-To enable the Quartz integration, simply call the extension method `UseQuartz()` on your HostBuilder.
+Check out the [working example](./examples).
+
+To enable the Quartz integration, simply call one of the three `UseQuartz()` extension methods on your HostBuilder.
 
 ```c#
-new HostBuilder().UseQuartz((context, config) =>
+new HostBuilder().UseQuartz((context, provider, scheduler) =>
 {
-    config.Set("quartz.threadPool.threadCount", "2");
+    // You can further configure the scheduler instance here, like 
+    // add job listeners, trigger listeners, etc.
+    // DO NOT call the Start method here as it will be automatically
+    // invoked by the hosted service once it has started.
+    scheduler.ListenerManager.AddJobListener(
+      new JobChainingJobListener("TestListener"), KeyMatcher<JobKey>.KeyEquals(new JobKey("DummyJob"))
+    );
 })
 ```
 
-The callback is opitional and can be used to customize Quartz default options. You can also set the options in your `appsettings.json` file.
+To change Quartz options, add a section to your `appsettings.json` file, or use the `UserQuartz()` method.
 
 ```json
 {
@@ -29,7 +37,16 @@ The callback is opitional and can be used to customize Quartz default options. Y
 }
 ```
 
-To schedule a new job, call the extension method `AddJobService()` from an `IServiceCollection` instance.
+or
+
+```c#
+new HostBuilder().UseQuartz((context, config) =>
+{
+    config.Set("quartz.threadPool.threadCount", "2");
+})
+```
+
+To schedule a new job, call the extension method `AddJobService()` on a `IServiceCollection` instance.
 
 ```c#
 new HostBuilder().ConfigureServices((services) =>
