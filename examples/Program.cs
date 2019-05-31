@@ -28,10 +28,23 @@ namespace Hosting.Extensions.Quartz.Example
                         trigger.StartNow().WithSimpleSchedule((x) => x.WithIntervalInSeconds(2).RepeatForever());
                     });
                 })
-                .UseQuartz((context, config) =>
-                {
-                    config.Set("quartz.threadPool.threadCount", Environment.ProcessorCount.ToString());
-                })
+                // You can use the other `UserQuartz` 2 methods
+                // if you only want to configure either the scheduler factory
+                // or the scheduler instance
+                .UseQuartz(
+                    (context, config) =>
+                    {
+                        // Here you can further customize options passed down to the StdSchedulerFactory
+                        config.Set("quartz.threadPool.threadCount", Environment.ProcessorCount.ToString());
+                    },
+                    (context, provider, scheduler) =>
+                    {
+                        // You can further configure the scheduler instance here, like 
+                        // add job listeners, trigger listeners, etc.
+                        // DO NOT call the Start method here as it will be automatically
+                        // invoked by the hosted service once it is started.
+                    }
+                )
                 .UseConsoleLifetime()
                 .UseSerilog()
                 .Build();

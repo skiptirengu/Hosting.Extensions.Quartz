@@ -2,6 +2,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Quartz;
+using Quartz.Impl.Matchers;
+using Quartz.Listener;
 using Quartz.Spi;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,13 +24,22 @@ namespace Hosting.Extensions.Quartz.Tests
 
             var host = new HostBuilder()
                 .ConfigureAppConfiguration(x => x.AddInMemoryCollection(dictionary))
-                .UseQuartz((ctx, c) => c.Set("quartz.threadPool.threadCount", "4"))
+                .UseQuartz(
+                    (ctx, c) =>
+                    {
+                        c.Set("quartz.threadPool.threadCount", "4");
+                    },
+                    (context, provider, sched) =>
+                    {
+                        sched.ListenerManager.AddJobListener(new JobChainingJobListener("TestListener"), KeyMatcher<JobKey>.KeyEquals(new JobKey("DummyJob")));
+                    }
+                )
                 .ConfigureServices((context, services) =>
                 {
                     services
                         .AddJobService<IDummyJob, DummyJob>((job, trigger) =>
                         {
-                            job.WithDescription("IDummyJob_Job");
+                            job.WithIdentity("DummyJob").WithDescription("IDummyJob_Job");
                             trigger.WithDescription("IDummyJob_Trigger");
                         })
                         .AddJobService<EvenDummierJob>((job, trigger) =>
@@ -58,6 +69,10 @@ namespace Hosting.Extensions.Quartz.Tests
             Assert.True(jobs[1].JobDetail.JobType.IsAssignableFrom(typeof(EvenDummierJob)));
             Assert.Equal("EvenDummierJob_Job", jobs[1].JobDetail.Description);
             Assert.Equal("EvenDummierJob_Trigger", jobs[1].Trigger.Description);
+
+            var matchers = scheduler.ListenerManager.GetJobListeners();
+            Assert.Single(matchers);
+            Assert.Equal("TestListener", matchers.First().Name);
         }
     }
 }
