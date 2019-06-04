@@ -49,7 +49,6 @@ namespace Hosting.Extensions.Quartz.Example
                         // add job listeners, trigger listeners, etc.
                         // DO NOT call the Start method here as it will be automatically
                         // invoked by the hosted service once it is started.
-                        // Cria um novo listener para escutar a execução do job2
                         var listener = new JobChainingJobListener("Chain");
                         var firstJob = new JobKey("ConsolePrintJob");
                         listener.AddJobChainLink(firstJob, new JobKey("Job1"));
