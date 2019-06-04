@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Quartz;
+using Quartz.Impl.Matchers;
+using Quartz.Listener;
 using Serilog;
 using System;
 using System.Threading.Tasks;
@@ -27,6 +29,10 @@ namespace Hosting.Extensions.Quartz.Example
                         job.WithIdentity("LogWriteJob").WithDescription("Simple job");
                         trigger.StartNow().WithSimpleSchedule((x) => x.WithIntervalInSeconds(2).RepeatForever());
                     });
+                    services.AddJobService<Job1>((job) =>
+                    {
+                        job.WithIdentity("Job1");
+                    });
                 })
                 // You can use the other `UserQuartz` 2 methods
                 // if you only want to configure either the scheduler factory
@@ -43,6 +49,11 @@ namespace Hosting.Extensions.Quartz.Example
                         // add job listeners, trigger listeners, etc.
                         // DO NOT call the Start method here as it will be automatically
                         // invoked by the hosted service once it is started.
+                        // Cria um novo listener para escutar a execução do job2
+                        var listener = new JobChainingJobListener("Chain");
+                        var firstJob = new JobKey("ConsolePrintJob");
+                        listener.AddJobChainLink(firstJob, new JobKey("Job1"));
+                        scheduler.ListenerManager.AddJobListener(listener, KeyMatcher<JobKey>.KeyEquals(firstJob));
                     }
                 )
                 .UseConsoleLifetime()

@@ -33,7 +33,14 @@ namespace Hosting.Extensions.Quartz
             _logger.LogInformation("Scheduling {count} job(s)", _jobs.Count());
             foreach (var item in _jobs)
             {
-                await _scheduler.ScheduleJob(item.JobDetail, item.Trigger, cancellationToken);
+                if (item.Trigger == null)
+                {
+                    await _scheduler.AddJob(item.JobDetail, true, cancellationToken);
+                }
+                else
+                {
+                    await _scheduler.ScheduleJob(item.JobDetail, item.Trigger, cancellationToken);
+                }
             }
             _logger.LogInformation("Starting quartz scheduler");
             await _scheduler.Start(cancellationToken);
